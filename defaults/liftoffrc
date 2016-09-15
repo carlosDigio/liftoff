@@ -7,6 +7,7 @@
 # company_identifier:
 ############################################################################
 
+project_repo_name: app_ios_XXXX
 test_target_name: UnitTests
 configure_git: true
 warnings_as_errors: true
@@ -14,7 +15,7 @@ enable_static_analyzer: true
 indentation_level: 4
 use_tabs: false
 dependency_managers: cocoapods
-enable_settings: true
+enable_settings: false
 strict_prompts: false
 deployment_target: 8.0
 
@@ -28,6 +29,7 @@ templates:
   - travis.yml: .travis.yml
   - test.sh: bin/test
   - setup.sh: bin/setup
+  - gitflow.sh: gitflow 
   - README.md: README.md
 
 warnings:
@@ -58,47 +60,82 @@ warnings:
 
 xcode_command: open -a 'Xcode' .
 
-project_template: swift
+project_template: objc
 
 app_target_templates:
   objc:
     - <%= project_name %>:
+      - Assets:
+        - Localizables:
+        - Images:
+          - Images.xcassets
       - Categories:
-      - Protocols:
-      - Headers:
+        - AFHTTPSessionManager+RACSupport.h
+        - AFHTTPSessionManager+RACSupport.m
+        - NSData+JSON.h
+        - NSData+JSON.m
+      - Constants:
+        - <%= prefix %>NetworkClientConstants.h
+        - <%= prefix %>NetworkClientConstants.m
+      - Libraries:
       - Models:
-      - ViewModels:
-      - Controllers:
-        - <%= prefix %>AppDelegate.h
-        - <%= prefix %>AppDelegate.m
-      - Views:
-      - Resources:
-        - Images.xcassets
-        - Storyboards:
-          - Main.storyboard
-        - Nibs:
-          - LaunchScreen.xib
-        - Other-Sources:
-          - Info.plist
-          - <%= project_name %>-Prefix.pch
-          - main.m
+        - CoreData:
+          - ManagedObjects:
+        - Repository:
+          - <%= prefix %>Repository.h
+          - <%= prefix %>Repository.m
+      - Categories:
+      - Modules:
+        - Main:
+          - Interactors:
+            - <%= prefix %>MainInteractor.h
+            - <%= prefix %>MainInteractor.m
+          - Presenters:
+            - <%= prefix %>MainPresenter.h
+            - <%= prefix %>MainPresenter.m
+          - Views:
+            - ViewControllers:
+              - <%= prefix %>MainViewController.h
+              - <%= prefix %>MainViewController.m
+            - Cells:
+          - Wireframes:
+            - <%= prefix %>MainWireframe.h
+            - <%= prefix %>MainWireframe.m
+      - WebServices:
+        - <%= prefix %>NetworkClient.h
+        - <%= prefix %>NetworkClient.m
+      - AppDelegate.h
+      - AppDelegate.m
+      - Supporting Files:
+        - Info.plist
+        - <%= project_name %>-Prefix.pch
+        - main.m
   swift:
     - <%= project_name %>:
-      - Extensions:
-      - Protocols:
+      - Assets:
+        - Localizables:
+        - Images:
+          - Images.xcassets
+      - Categories:
+      - Constants:
+      - Libraries:
       - Models:
-      - ViewModels:
-      - Controllers:
-        - AppDelegate.swift
-      - Views:
-      - Resources:
-        - Images.xcassets
-        - Storyboards:
-          - Main.storyboard
-        - Nibs:
-          - LaunchScreen.xib
-        - Other-Sources:
-          - Info.plist
+        - CoreData:
+          - ManagedObjects:
+          - Repository:
+      - Categories:
+      - Modules:
+        - Main:
+          - Interactors:
+          - Presenters:
+          - Views:
+            - ViewControllers:
+            - Cells:
+          - Wireframes:   
+      - WebServices:
+      - AppDelegate.swift
+      - Supporting Files:
+        - Info.plist
 
 test_target_templates:
   objc:

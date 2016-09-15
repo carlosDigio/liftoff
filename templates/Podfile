@@ -1,34 +1,24 @@
+platform :ios, '<%= deployment_target %>'
 source 'https://github.com/CocoaPods/Specs'
 
-platform :ios, '<%= deployment_target %>'
-
 # Uncomment this line if you use Swift
-# use_frameworks!
+use_frameworks!
+
+def pods
+    pod 'Typhoon', '~> 3.4'
+    pod 'ReactiveCocoa', '~> 2.5'
+    pod 'AFNetworking', '~> 3.0'
+    pod 'Groot', '~> 1.2'
+    pod 'Fabric'
+    pod 'Crashlytics'  
+end
 
 target '<%= project_name %>' do
-  # Application Pods
+    pods
 end
 
-abstract_target :unit_tests do
-  target '<%= test_target_name %>'
-  pod 'Specta'
-  pod 'Expecta'
-  pod 'OCMock'
-  pod 'OHHTTPStubs'
+target '<%= test_target_name %>' do
+    pod 'ReactiveCocoa', '~> 2.5'
+    pod 'OCMockito', '~> 3.0'
+    pod 'AFNetworking', '~> 3.0'
 end
-
-<% if enable_settings && dependency_manager_enabled?("cocoapods") %>
-# Copy acknowledgements to the Settings.bundle
-
-post_install do | installer |
-  require 'fileutils'
-
-  pods_acknowledgements_path = 'Pods/Target Support Files/Pods/Pods-Acknowledgements.plist'
-  settings_bundle_path = Dir.glob("**/*Settings.bundle*").first
-
-  if File.file?(pods_acknowledgements_path)
-    puts 'Copying acknowledgements to Settings.bundle'
-    FileUtils.cp_r(pods_acknowledgements_path, "#{settings_bundle_path}/Acknowledgements.plist", :remove_destination => true)
-  end
-end
-<% end %>
